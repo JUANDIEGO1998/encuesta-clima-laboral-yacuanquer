@@ -1,6 +1,7 @@
 const GOOGLE_SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbzlt5DnDDzx6Toi_fjP-LbI8gRAKQyuT3yodfjrR3ZsHoQAsl5lArPnFopxJ3fLPbLQ/exec";
 
+
 const preguntas = [
 
 {
@@ -261,10 +262,7 @@ app.innerHTML = `
 
 <h2>Datos Generales</h2>
 
-<div class="form-group">
-<label>Nombre Completo</label>
-<input id="nombre">
-</div>
+
 
 <div class="form-group">
 
@@ -329,8 +327,7 @@ Continuar
 
 function iniciarEncuesta(){
 
-const nombre =
-document.getElementById('nombre').value.trim();
+
 
 const dependencia =
 document.getElementById('dependencia').value;
@@ -341,12 +338,7 @@ document.getElementById('vinculacion').value;
 const tiempo =
 document.getElementById('tiempo').value.trim();
 
-if(nombre === ''){
 
-alert('Por favor ingrese el nombre completo.');
-return;
-
-}
 
 if(dependencia === ''){
 
@@ -371,7 +363,7 @@ return;
 
 participante = {
 
-nombre,
+
 dependencia,
 vinculacion,
 tiempo
@@ -469,9 +461,7 @@ mostrarPregunta();
 
 }
 
-
-
-async function finalizarEncuesta(){
+function finalizarEncuesta(){
 
 const datos = {
 
@@ -482,25 +472,6 @@ fecha:new Date().toLocaleString(),
 respuestas
 
 };
-
-try{
-
-await fetch(
-GOOGLE_SCRIPT_URL,
-{
-method:"POST",
-headers:{
-"Content-Type":"text/plain"
-},
-body:JSON.stringify(datos)
-}
-);
-
-}catch(error){
-
-console.error(error);
-
-}
 
 app.innerHTML = `
 
@@ -518,8 +489,6 @@ de la Alcaldía Municipal de Yacuanquer.
 
 </p>
 
-<br>
-
 <p>
 
 Sus respuestas fueron registradas correctamente.
@@ -530,4 +499,17 @@ Sus respuestas fueron registradas correctamente.
 
 `;
 
+fetch(
+GOOGLE_SCRIPT_URL,
+{
+method:"POST",
+headers:{
+"Content-Type":"text/plain"
+},
+body:JSON.stringify(datos)
 }
+)
+.catch(error => console.error(error));
+
+}
+
